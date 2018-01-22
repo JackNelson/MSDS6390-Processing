@@ -1,161 +1,152 @@
+color blackHair = color(9, 8, 6);
+color skinTone = color(255, 205, 148);
+color greenEye = color(51, 122, 44);
+
 void setup(){
   size(300,500);
-  
-  beginShape();
-  //vertex(width/2-45, 100);
-  vertex(width/2-20, 90);
-  //left sleeve
-  bezierVertex(width/2-20, 90, width/2-60, 100, width/2-63, 135);
-  bezierVertex(width/2-63, 135, width/2-53, 145, width/2-43, 140);
-  //left side and bottom seam
-  bezierVertex(width/2-45, 120, width/2-30, 175, width/2-42, 220);
-  bezierVertex(width/2-42, 220, width/2, 250, width/2+42, 220);
-  endShape();
-  
-  beginShape();
-  vertex(width/2-20, 90);
-  //neck
-  bezierVertex(width/2-20, 90, width/2, 110, width/2+20, 90);
-  //right sleeve
-  bezierVertex(width/2+20, 90, width/2+60, 100, width/2+63, 135);
-  bezierVertex(width/2+63, 135, width/2+53, 145, width/2+43, 140);
-  //right side
-  bezierVertex(width/2+45, 120, width/2+30, 175, width/2+42, 220);
-  endShape();
-  
+  drawBitmoji(width/2, height/2, 3, greenEye, blackHair, skinTone);
+}
+
+void drawBitmoji(int x, int y, int size, color eyeColor, color hairColor, color skinColor){
+  strokeWeight(1.5);
   strokeJoin(ROUND);
   strokeCap(ROUND);
-  strokeWeight(1.5);
+  drawEar(x, y, size, skinColor, 1);
+  drawEar(x, y, size, skinColor, -1);
+  drawHead(x, y, size, hairColor);
+  drawFacialHair(x, y, size, skinColor);
+  drawMouth(x, y, size, skinColor);
+  drawHair(x, y, size, hairColor);
+  drawEye(x, y, size, eyeColor, 1);
+  drawEye(x, y, size, eyeColor, -1);
+  drawNose(x, y, size);
+  drawEyebrows(x, y, size, hairColor, 1);
+  drawEyebrows(x, y, size, hairColor, -1);
+}
+   
+// EARS
+void drawEar(int centerX, int centerY, float c, color skinTone, int side){
+  fill(skinTone);
+  int[] earXY = findCoordinates(centerX, centerY, c, 35.014282, -0.028563658, side);
+  bezier(earXY[0], earXY[1], earXY[0]-7*c*side, earXY[1]-1*c, earXY[0]-5*c*side, earXY[1]+20*c, earXY[0]+5*c*side, earXY[1]+18*c);
+}
   
-  // EARS
-  fill(255,205,148);
-  bezier(width/2-35, 44, width/2-42, 43, width/2-40, 64, width/2-30, 62);
-  bezier(width/2+35, 44, width/2+42, 43, width/2+40, 64, width/2+30, 62);
-  
-  // HEAD
-  fill(9, 8, 6);
+// HEAD
+void drawHead(int centerX, int centerY, float c, color hairColor){
+fill(hairColor);
+int[] headXY = findCoordinates(centerX, centerY, c, 36.40055, 0.27829966, 1);
+beginShape();
+vertex(headXY[0], headXY[1]);
+bezierVertex(headXY[0]+2*c, headXY[1]+35*c, headXY[0]+2*c, headXY[1]+35*c, headXY[0]+20*c, headXY[1]+45*c); //left cheek
+bezierVertex(centerX, headXY[1]+55*c, centerX, headXY[1]+55*c, headXY[0]+50*c, headXY[1]+45*c); //chin
+bezierVertex(headXY[0]+68*c, headXY[1]+35*c, headXY[0]+68*c, headXY[1]+35*c, headXY[0]+70*c, headXY[1]); //right cheek
+bezierVertex(headXY[0]+65*c, headXY[1]-35*c, headXY[0]+5*c, headXY[1]-35*c, headXY[0], headXY[1]); //forehead
+endShape();
+}
+
+// FACIAL HAIR
+void drawFacialHair(int centerX, int centerY, int c, color skinTone){
+  fill(skinTone);
+  int[] facialXY = findCoordinates(centerX, centerY, c, 30.413813, 0.16514868, 1);
   beginShape();
-  vertex(width/2-35, 35);
-  bezierVertex(width/2-33, 70, width/2-33, 70, width/2-15, 85); //left cheek
-  bezierVertex(width/2, 90, width/2, 90, width/2+15, 85); //chin
-  bezierVertex(width/2+33, 70, width/2+33, 70, width/2+35, 35); //right cheek
-  bezierVertex(width/2+30, 0, width/2-30, 0, width/2-35, 35); //forehead
+  vertex(facialXY[0], facialXY[1]);
+  bezierVertex(facialXY[0]-2*c, facialXY[1]+28*c, facialXY[0]+5*c, facialXY[1]+33*c, facialXY[0]+18*c, facialXY[1]+40*c); //left sideburn
+  bezierVertex(facialXY[0]+10*c, facialXY[1]+18*c, facialXY[0]+50*c, facialXY[1]+18*c, facialXY[0]+42*c, facialXY[1]+40*c); //goatee
+  bezierVertex(facialXY[0]+55*c, facialXY[1]+33*c, facialXY[0]+62*c, facialXY[1]+28*c, facialXY[0]+60*c, facialXY[1]); //right sideburn
+  bezierVertex(facialXY[0]+45*c, facialXY[1]-30*c, facialXY[0]+15*c, facialXY[1]-30*c, facialXY[0], facialXY[1]); //hairline
+  endShape();
+}
+
+// MOUTH
+void drawMouth(int centerX, int centerY, int c, color skinTone){
+  fill(skinTone);
+  int[] mouthXY = findCoordinates(centerX, centerY, c, 35.128338, -1.4852904, 1);
+  beginShape();
+  vertex(mouthXY[0], mouthXY[1]);
+  bezierVertex(mouthXY[0]+2*c, mouthXY[1]-4*c, mouthXY[0]+4*c, mouthXY[1]-4*c, mouthXY[0]+6*c, mouthXY[1]); //underlip
+  bezierVertex(mouthXY[0]+13*c, mouthXY[1]+2*c, mouthXY[0]+15*c, mouthXY[1]-5*c, mouthXY[0]+13*c, mouthXY[1]-10*c); //right mustache
+  bezierVertex(mouthXY[0]+11*c, mouthXY[1]-15*c, mouthXY[0]-5*c, mouthXY[1]-15*c, mouthXY[0]-7*c, mouthXY[1]-10*c); //upper mustache
+  bezierVertex(mouthXY[0]-9*c, mouthXY[1]-5*c, mouthXY[0]-7*c, mouthXY[1]+2*c, mouthXY[0], mouthXY[1]); //left mustache
   endShape();
   
-  // FACIAL HAIR
-  fill(255,205,148);
+  bezier(mouthXY[0]+10*c, mouthXY[1]-10*c, mouthXY[0]+5*c, mouthXY[1]-7*c, mouthXY[0]+1*c, mouthXY[1]-7*c, mouthXY[0]-4*c, mouthXY[1]-10*c); //smile
+  bezier(mouthXY[0]-1*c, mouthXY[1]-5*c, mouthXY[0]+2*c, mouthXY[1]-3*c, mouthXY[0]+4*c, mouthXY[1]-3*c, mouthXY[0]+7*c, mouthXY[1]-5*c); //lower lip
+}
+ 
+// HAIR
+void drawHair(int centerX, int centerY, int c, color hairColor){
+  fill(hairColor);
+  int[] hairXY = findCoordinates(centerX, centerY, c, 31.764761, 1.0789871, -1);
   beginShape();
-  vertex(width/2-30, 40);
-  bezierVertex(width/2-32, 68, width/2-25, 73, width/2-12, 80); //left sideburn
-  bezierVertex(width/2-20, 58, width/2+20, 58, width/2+12, 80); //goatee
-  bezierVertex(width/2+25, 73, width/2+32, 68, width/2+30, 40); //right sideburn
-  bezierVertex(width/2+15, 10, width/2-15, 10, width/2-30, 40); //hairline
-  endShape();
-  
-  // MOUTH
+  vertex(hairXY[0], hairXY[1]);
+  bezierVertex(hairXY[0]-3*c, hairXY[1]+13*c, centerX, hairXY[1]+13*c, hairXY[0]-20*c, hairXY[1]+8*c); //hairline sweep
+  bezierVertex(hairXY[0]-30*c, hairXY[1]+3*c, hairXY[0]-35*c, hairXY[1]+13*c, hairXY[0]-33*c, hairXY[1]+20*c); //swoop tail
+  bezierVertex(hairXY[0]-50*c, hairXY[1]-7*c, hairXY[0]-10*c, hairXY[1]-22*c, hairXY[0], hairXY[1]); //hair on top
+  endShape(); 
+}
+
+// EYES
+void drawEye(int centerX, int centerY, int c, color eyeColor, int side){
+  drawOuterEye(centerX, centerY, c, side, 1);
+  drawInnerEye(centerX, centerY, c, eyeColor, side); 
+  drawOuterEye(centerX, centerY, c, side, 0);
+}
+
+void drawOuterEye(int centerX, int centerY, int c, int side, int fillOption){
+  if (fillOption == 1){
+    fill(255);
+  } else {
+    noFill();
+  }
+  stroke(0);
+  int[] eyeXY = findCoordinates(centerX, centerY, c, 5.8309517, -0.5404195, side);
   beginShape();
-  vertex(width/2-3, 80);
-  bezierVertex(width/2-1, 76, width/2+1, 76, width/2+3, 80); //underlip
-  bezierVertex(width/2+10, 82, width/2+12, 75, width/2+10, 70); // right mustache
-  bezierVertex(width/2+8, 65, width/2-8, 65, width/2-10, 70); // upper mustache
-  bezierVertex(width/2-12, 75, width/2-10, 82, width/2-3, 80); // left mustache
+  vertex(eyeXY[0], eyeXY[1]);
+  vertex(eyeXY[0]-5*c*side, eyeXY[1]+4*c);
+  vertex(eyeXY[0]-17*c*side, eyeXY[1]+2*c);
+  vertex(eyeXY[0]-18*c*side, eyeXY[1]);
+  bezierVertex(eyeXY[0]-13*c*side, eyeXY[1]-5*c, eyeXY[0]-6*c*side, eyeXY[1]-5*c, eyeXY[0], eyeXY[1]);
   endShape();
-  
-  bezier(width/2+7, 70, width/2+2, 73, width/2-2, 73, width/2-7, 70); //smile
-  bezier(width/2-4, 75, width/2-1, 77, width/2+1, 77, width/2+4, 75); //lower lip
-  
-  // HAIR
-  fill(9, 8, 6);
-  beginShape();
-  vertex(width/2+15,17);
-  bezierVertex(width/2+12, 30, width/2, 30, width/2-5, 25); //hairline sweep
-  bezierVertex(width/2-15, 20, width/2-20, 30, width/2-18, 37); //swoop tail
-  bezierVertex(width/2-35, 10, width/2+5, -5, width/2+15,17); //hair on top
-  endShape();
-  
-  // EYES
-  fill(255);
-  beginShape();
-  vertex(width/2-5, 48);
-  vertex(width/2-10, 52);
-  vertex(width/2-22, 50);
-  vertex(width/2-23, 48);
-  bezierVertex(width/2-18, 43, width/2-11, 43, width/2-5, 48);
-  endShape();
-  
-  fill(51, 122, 44);
+}
+
+void drawInnerEye(int centerX, int centerY, int c, color eyeColor, int side){
+  fill(eyeColor);
   noStroke();
-  ellipse(width/2-12, 49, 7, 7); //iris
+  int[] pupilXY = findCoordinates(centerX, centerY, c, 12.572291, -0.30288488, side);
+  ellipse(pupilXY[0], pupilXY[1], 7*c, 7*c); //iris
   fill(0);
-  ellipse(width/2-12, 49, 3, 3); //pupil
+  ellipse(pupilXY[0], pupilXY[1], 3*c, 3*c); //pupil
   fill(255);
-  ellipse(width/2-11, 48, 2, 2);  //glare
-  
+  ellipse(pupilXY[0]+1*c, pupilXY[1]-1*c, 2*c, 2*c); //glare
+}
+
+// NOSE
+void drawNose(int centerX, int centerY, int c){
   noFill();
   stroke(1.5);
   beginShape();
-  vertex(width/2-5, 48);
-  vertex(width/2-10, 52);
-  vertex(width/2-22, 50);
-  vertex(width/2-23, 48);
-  bezierVertex(width/2-18, 43, width/2-11, 43, width/2-5, 48);
+  int[] noseXY = findCoordinates(centerX, centerY, c, 11.401754, -1.3045443, 1);
+  vertex(noseXY[0], noseXY[1]);
+  bezierVertex(noseXY[0]-5*c, noseXY[1]+6*c, noseXY[0]+2*c, noseXY[1]+6*c, centerX, noseXY[1]+6*c);
+  bezierVertex(noseXY[0]+5*c, noseXY[1]+6*c, noseXY[0]+11*c, noseXY[1]+6*c, noseXY[0]+6*c, noseXY[1]);
   endShape();
-  
-  fill(255);
+}
+
+// EYEBROWS
+void drawEyebrows(int centerX, int centerY, int c, color hairColor, int side){
+  stroke(hairColor);
+  strokeWeight(3.5*c);
+  int[] eyebrowXY = findCoordinates(centerX, centerY, c, 6.4031243, 0.67474097, side);
   beginShape();
-  vertex(width/2+5, 48);
-  vertex(width/2+10, 52);
-  vertex(width/2+22, 50);
-  vertex(width/2+23, 48);
-  bezierVertex(width/2+18, 43, width/2+11, 43, width/2+5, 48);
+  vertex(eyebrowXY[0], eyebrowXY[1]);
+  vertex(eyebrowXY[0]-10*c*side, eyebrowXY[1]-2*c);
+  strokeWeight(3.0*c);
+  vertex(eyebrowXY[0]-18*c*side, eyebrowXY[1]+2*c);
   endShape();
+}
   
-  fill(51, 122, 44);
-  noStroke();
-  ellipse(width/2+13, 49, 7, 7); //iris
-  fill(0);
-  ellipse(width/2+13, 49, 3, 3); //pupil
-  fill(255);
-  ellipse(width/2+14, 48, 2, 2);  //glare
-  
-  noFill();
-  stroke(1.5);
-  beginShape();
-  vertex(width/2+5, 48);
-  vertex(width/2+10, 52);
-  vertex(width/2+22, 50);
-  vertex(width/2+23, 48);
-  bezierVertex(width/2+18, 43, width/2+11, 43, width/2+5, 48);
-  endShape();
-  
-  // NOSE
-  noFill();
-  beginShape();
-  vertex(width/2-3, 56);
-  bezierVertex(width/2-8, 62, width/2-1, 62, width/2, 62);
-  bezierVertex(width/2+1, 62, width/2+8, 62, width/2+3, 56);
-  endShape();
-  
-  // EYEBROWS
-  strokeWeight(3.5);
-  beginShape();
-  vertex(width/2-5, 41);
-  vertex(width/2-15, 39);
-  strokeWeight(3.0);
-  vertex(width/2-23, 43);
-  endShape();
-  
-  strokeWeight(3.5);
-  beginShape();
-  vertex(width/2+5, 41);
-  vertex(width/2+15, 39);
-  strokeWeight(3.0);
-  vertex(width/2+23, 43);
-  endShape();
-  
-  strokeWeight(0.5);
-  point(width/2, 48);
-  line(width/2, 0, width/2, 90);
-  line(105, 45, 195, 45);
-  ellipse(width/2, 45, 90, 90);
+int[] findCoordinates(int centerX, int centerY, float size, float mag, float theta, int side){
+  int xValue = round(centerX - size * mag * cos(theta) * side);
+  int yValue = round(centerY - size * mag * sin(theta));
+  return new int[] {xValue, yValue};
 }
