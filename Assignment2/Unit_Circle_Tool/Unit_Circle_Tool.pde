@@ -16,17 +16,9 @@ void unitCircleConvert(int x, float y){
   print("\nTheta: "+theta+"\nMagnitude: "+mag+"\n");
 }
 
-
-/* Example
-void drawBitmoji(int x, int y, size){
-  
-eyeX = centerX - size*mag*cos(theta);
-eyeY = centerY - size*mag*sin(theta);
-
-eyebrowX = centerX - size*mag*cos(theta);
-eyebrowY = centerY - size*mag*sin(theta);
-
-drawEye(eyeX, eyeY, side);
-drawEye(eyeX, eyeY, side);
-}
-*/
+// Resources:
+// https://processing.org
+// https://forum.processing.org
+// https://stackoverflow.com
+// http://www.bitmoji.com
+// "Processing: Creative Coding and Generative Art in Processing 2" by Ira Greenberg, Dianna Xu, and Deepak Kumar

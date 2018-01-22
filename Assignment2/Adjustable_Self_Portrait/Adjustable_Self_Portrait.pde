@@ -153,3 +153,10 @@ int[] findCoordinates(int centerX, int centerY, float size, float mag, float the
   int yValue = round(centerY - size * mag * sin(theta));
   return new int[] {xValue, yValue};
 }
+
+// Resources:
+// https://processing.org
+// https://forum.processing.org
+// https://stackoverflow.com
+// http://www.bitmoji.com
+// "Processing: Creative Coding and Generative Art in Processing 2" by Ira Greenberg, Dianna Xu, and Deepak Kumar
