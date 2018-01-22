@@ -7,21 +7,22 @@ void setup(){
   drawBitmoji(width/2, height/2, 3, greenEye, blackHair, skinTone);
 }
 
+// Takes center point coordinates and attribute color features to draw personal Bitmoji at a specified size
 void drawBitmoji(int x, int y, int size, color eyeColor, color hairColor, color skinColor){
   strokeWeight(1.5);
   strokeJoin(ROUND);
   strokeCap(ROUND);
-  drawEar(x, y, size, skinColor, 1);
-  drawEar(x, y, size, skinColor, -1);
-  drawHead(x, y, size, hairColor);
+  drawEar(x, y, size, skinColor, 1); //1 indicates left side
+  drawEar(x, y, size, skinColor, -1); //-1 indicates right side
+  drawHead(x, y, size, hairColor); 
   drawFacialHair(x, y, size, skinColor);
   drawMouth(x, y, size, skinColor);
   drawHair(x, y, size, hairColor);
-  drawEye(x, y, size, eyeColor, 1);
-  drawEye(x, y, size, eyeColor, -1);
+  drawEye(x, y, size, eyeColor, 1); //1 indicates left side
+  drawEye(x, y, size, eyeColor, -1); //-1 indicates right side
   drawNose(x, y, size);
-  drawEyebrows(x, y, size, hairColor, 1);
-  drawEyebrows(x, y, size, hairColor, -1);
+  drawEyebrows(x, y, size, hairColor, 1); //1 indicates left side
+  drawEyebrows(x, y, size, hairColor, -1); //-1 indicates right side
 }
    
 // EARS
@@ -76,6 +77,7 @@ void drawMouth(int centerX, int centerY, int c, color skinTone){
 // HAIR
 void drawHair(int centerX, int centerY, int c, color hairColor){
   fill(hairColor);
+  strokeWeight(1.5);
   int[] hairXY = findCoordinates(centerX, centerY, c, 31.764761, 1.0789871, -1);
   beginShape();
   vertex(hairXY[0], hairXY[1]);
@@ -144,7 +146,8 @@ void drawEyebrows(int centerX, int centerY, int c, color hairColor, int side){
   vertex(eyebrowXY[0]-18*c*side, eyebrowXY[1]+2*c);
   endShape();
 }
-  
+
+//calculates datum points for certain features based on unit circle values, magnitude and theta.   
 int[] findCoordinates(int centerX, int centerY, float size, float mag, float theta, int side){
   int xValue = round(centerX - size * mag * cos(theta) * side);
   int yValue = round(centerY - size * mag * sin(theta));
