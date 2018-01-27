@@ -1,10 +1,13 @@
 //float speedClockwise;
 //float speedCounterClockwise;
-float decay;
-float displacement;
+float decayClockwise;
+float decayCounterclockwise;
+float displacementClockwise;
+float displacementCounterclockwise;
 float angularSpeed;
 float time;
-int wavePeriod;
+int wavePeriodClockwise;
+int wavePeriodCounterclockwise;
 int x;
 int y;
 
@@ -13,11 +16,15 @@ void setup(){
   noFill();
   //speedClockwise = 0;
   strokeWeight(10);
-  decay = 0.8;
-  displacement = 5*TWO_PI;
+  decayClockwise = 0.2;
+  decayCounterclockwise = 0.2;
+  displacementClockwise = 2*TWO_PI;
+  displacementCounterclockwise = 2*TWO_PI;
   angularSpeed = 0.0174533*30;
   time = 0;
-  wavePeriod = 1;
+  wavePeriodClockwise = 1;
+  wavePeriodCounterclockwise = 1;
+  
 }
 
 void draw(){
@@ -25,7 +32,7 @@ void draw(){
   
   pushMatrix();
   translate(width/2,height/2);
-  rotate(displacement*/*exp(-1*decay*time)*/cos(angularSpeed*time/2 - PI/8));
+  rotate(displacementClockwise*/*exp(-1*decay*time)*/cos(angularSpeed*time/2 - PI/8));
   //scale(-1, 1);
   for(int i = 0; i < 12; i++){ 
     rotate(TWO_PI/12);
@@ -41,7 +48,7 @@ void draw(){
   pushMatrix();
   translate(width/2,height/2);
   //rotate(TWO_PI/360 + speedClockwise);
-  rotate(-displacement*/*exp(-1*decay*time)*/cos(angularSpeed*time/2));
+  rotate(-displacementCounterclockwise*/*exp(-1*decay*time)*/cos(angularSpeed/2*time));
   scale(-1, 1);
   for(int i = 0; i < 12; i++){ 
     rotate(TWO_PI/12);
@@ -55,8 +62,13 @@ void draw(){
   time += 0.016667;
   popMatrix();
   
-  if (time > TWO_PI*wavePeriod){
-    displacement *= decay;
-    wavePeriod += 1;
+  if (displacementClockwise*/*exp(-1*decay*time)*/cos(angularSpeed*time/2 - PI/8) == 0){
+    displacementClockwise *= decayClockwise;
   }
+  
+  if (-displacementCounterclockwise*/*exp(-1*decay*time)*/cos(angularSpeed*time/2) == 0){
+    displacementCounterclockwise *= decayCounterclockwise;
+  }
+    
 }
+// Turn whole spinning motion into one function and call clockwise or counterclockwise
