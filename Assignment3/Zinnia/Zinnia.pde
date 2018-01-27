@@ -1,15 +1,23 @@
-float speedClockwise;
-float speedCounterClockwise;
-float damping;
+//float speedClockwise;
+//float speedCounterClockwise;
+float decay;
+float displacement;
+float angularSpeed;
+float time;
+int wavePeriod;
 int x;
 int y;
 
 void setup(){
   size(500,500);
   noFill();
-  speedClockwise = 0;
+  //speedClockwise = 0;
   strokeWeight(10);
-  damping = .;
+  decay = 0.8;
+  displacement = 5*TWO_PI;
+  angularSpeed = 0.0174533*30;
+  time = 0;
+  wavePeriod = 1;
 }
 
 void draw(){
@@ -17,7 +25,7 @@ void draw(){
   
   pushMatrix();
   translate(width/2,height/2);
-  rotate(TWO_PI/360 - speedClockwise);
+  rotate(displacement*/*exp(-1*decay*time)*/cos(angularSpeed*time/2 - PI/8));
   //scale(-1, 1);
   for(int i = 0; i < 12; i++){ 
     rotate(TWO_PI/12);
@@ -32,7 +40,8 @@ void draw(){
   
   pushMatrix();
   translate(width/2,height/2);
-  rotate(TWO_PI/360 + speedClockwise);
+  //rotate(TWO_PI/360 + speedClockwise);
+  rotate(-displacement*/*exp(-1*decay*time)*/cos(angularSpeed*time/2));
   scale(-1, 1);
   for(int i = 0; i < 12; i++){ 
     rotate(TWO_PI/12);
@@ -43,6 +52,11 @@ void draw(){
     bezierVertex(-30, 150, -50, 150, -80, 125);
     endShape();
   }
-  speedClockwise += 1*damping;
+  time += 0.016667;
   popMatrix();
+  
+  if (time > TWO_PI*wavePeriod){
+    displacement *= decay;
+    wavePeriod += 1;
+  }
 }
