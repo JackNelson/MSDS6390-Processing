@@ -1,7 +1,18 @@
 PImage img01;
 PImage img02;
-//float[][] kernel = {{1.0/9, 1.0/9, 1.0/9}, {1.0/9, 1.0/9, 1.0/9}, {1.0/9, 1.0/9, 1.0/9}};
-float[][] kernel = {{0, -1, 0}, {-1, 4, -1}, {0, -1, 0}};
+
+// 3x3 kernels taken from http://matlabtricks.com/post-5/3x3-convolution-kernels-with-online-demo
+
+float[][] kernel = {{1.0/9, 1.0/9, 1.0/9}, {1.0/9, 1.0/9, 1.0/9}, {1.0/9, 1.0/9, 1.0/9}}; //blur convolution filter
+//float[][] kernel = {{0, -1, 0}, {-1, 5, -1}, {0, -1, 0}}; //sharpen convolution filter
+//float[][] kernel = {{0, -1, 0}, {-1, 4, -1}, {0, -1, 0}}; //edge detection convolution filter
+//float[][] kernel = {{0, 0, 0}, {-1, 2, -1}, {0, 0, 0}}; //horizontal edge detection convolution filter
+//float[][] kernel = {{0, -1, 0}, {0, 2, 0}, {0, -1, 0}}; //vertical edge detection convolution filter
+//float[][] kernel = {{-1, -1, -1}, {0, 0, 0}, {1, 1, 1}}; //horizaontal gradient convolution filter
+//float[][] kernel = {{-1, 0, 1}, {-1, 0, 1}, {-1, 0, 1}}; //vertical gradient convolution filter
+//float[][] kernel = {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}}; //horizontal sobel convolution filter
+//float[][] kernel = {{1, 0, -1}, {2, 0, -2}, {1, 0, -1}}; //vertical sobel convolution filter
+//float[][] kernel = {{-2, -1, 0}, {-1, 1, 1}, {0, 1, 2}}; //emboss convolution filter
 
 void setup(){
   String url = "http://9b83e3ef165f4724a2ca-84b95a0dfce3f3b3606804544b049bc7.r27.cf5.rackcdn.com/production/local_offices/VJP_4376_Detroit_Nighttime_Skyline_Vito_Palmisano_high.jpg";
