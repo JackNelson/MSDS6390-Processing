@@ -1,5 +1,5 @@
 void priceScale(){
-  String[] axisLabels = {"price1","price2","price3","price4","price5","price6","price7","price8"};
+  String[] axisLabels = {"3.50","12.00","40.00","140.00","500.00","1,700.00","5,800.00","20,000.00"};
   String axisTitle = "Price (USD)";
   textSize(8);
   fill(0,0,0);
