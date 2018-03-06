@@ -1,0 +1,2 @@
+class Star extends Shape{
+}
