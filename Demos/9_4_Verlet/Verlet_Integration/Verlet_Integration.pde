@@ -18,7 +18,7 @@
      
      PVector p = new PVector(width/2+cos(theta)*shapeR, height/2*sin(theta)*shapeR);
      balls[i] = new VerletBall(p, 10);
-     if (i<0){
+     if (i>0){
        sticks[i-1] = new VerletStick(balls[i-1], balls[i], tension);
      }
      if (i == particles-1){
