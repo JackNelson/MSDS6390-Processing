@@ -1,4 +1,4 @@
-class PieChart extends Chart{
+class TargetChart extends Chart{
   
   //FIELDS
   color[] pcColors = {#e6194b, #3cb44b, #ffe119, #0082c8, #f58231, 
@@ -9,24 +9,18 @@ class PieChart extends Chart{
   float yValueSum = 0;
   
   //CSTRS
-  PieChart(){
+  TargetChart(){
     super();
   }
   
-  PieChart(Table data, String xLabelField, String yValueField, PVector loc, PVector scl, String chartTitle){
+  TargetChart(Table data, String xLabelField, String yValueField, PVector loc, PVector scl, String chartTitle){
     super(data, xLabelField, yValueField, loc, scl);
     this.chartTitle = chartTitle;
     
     getYValueSum();
   } 
   
-  //METHODS
-  void getYValueSum(){
-    for(int i=0; i<yValues.length; i++){
-      yValueSum += yValues[i];
-    }
-  }
-  
+  //METHODS  
   void display(){
     textSize(12);
     displayPie();
@@ -40,12 +34,18 @@ class PieChart extends Chart{
     text(chartTitle, (width-textWidth(chartTitle))/2,75);
   }
   
-  void displayPie(){
-    float start = 3*HALF_PI;
+  void getYValueSum(){
     for(int i=0; i<yValues.length; i++){
+      yValueSum += yValues[i];
+    }
+  }
+  
+  void displayPie(){
+    float circleSize = 650;
+    for(int i=yValues.length-1; i>-1; i--){
+      circleSize -= 650*yValues[i]/yValueSum;
       fill(pcColors[i]);
-      arc(width/2, height/2, 550, 550, start, start+yValues[i]/yValueSum*TWO_PI);
-      start += yValues[i]/yValueSum*TWO_PI;
+      ellipse(width/2, height/2, circleSize, circleSize);
     }
   }
   

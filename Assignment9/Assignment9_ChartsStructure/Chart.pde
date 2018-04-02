@@ -1,7 +1,6 @@
-abstract class Chart implements Display{
+abstract class Chart extends ChartData implements Display{
   
   //FIELDS
-  Table data;
   PVector loc;
   PVector scl;
   
@@ -9,8 +8,8 @@ abstract class Chart implements Display{
   Chart(){
   }
   
-  Chart(Table data, PVector loc, PVector scl){
-    this.data = data;
+  Chart(Table data, String xLabelField, String yValueField, PVector loc, PVector scl){
+    super(data, xLabelField, yValueField);
     this.loc = loc;
     this.scl = scl;
   }
